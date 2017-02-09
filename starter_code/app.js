@@ -15,6 +15,20 @@ app.use(expressLayouts);
 app.set('layout', 'layouts/main-layout');
 app.set('view engine', 'ejs');
 
+app.get("/songs/:albumId", function (req, res){
+  let albumId = req.params.albumId;
+  console.log('alubm ID is: ', albumId, "yay!");
+
+  // Get tracks in an album
+  spotify.getAlbumTracks(albumId, { limit : 5, offset : 1 })
+  .then(function(data) {
+    console.log("Album info", data.body);
+    res.render("songs", {tracks: data.body.items});
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+});
+
 app.get("/albums/:artistId", function (req, res){
   let artistId = req.params.artistId;
   let artistName = null;
@@ -24,7 +38,7 @@ app.get("/albums/:artistId", function (req, res){
     artistName = data.body.name;
     spotify.getArtistAlbums(artistId)
       .then(function(data) {
-            //console.log('Artist albums', data.body);
+            console.log('Artist albums', data.body);
             let artistAlbums = data.body.items;
             res.render('albums', {artist: artistName, albums: artistAlbums});
       }, function(err) {

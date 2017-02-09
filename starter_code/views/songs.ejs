@@ -1,0 +1,13 @@
+<div class="top-bar">
+  <h2 class="top-bar-left">Title</h2>
+  <h2 class="top-bar-right">Listen</h2>
+</div>
+
+<div class="content-wrapper">
+  <% tracks.forEach(function (track) { %>
+    <div class="song-container">
+      <h3 class="song-container-title"><%=track.name%></h3>
+      <audio class="song-container-song" src="<%=track.preview_url%>" controls=""></audio>
+    </div>
+  <% });                               %>
+</div>
